@@ -24,7 +24,9 @@ export default function Home() {
 
   const sendComment = async() =>{
     if(sessionStorage.getItem('token')===null){
+
       navigate('/login')
+      
     }else{
       const data = {"token":sessionStorage.getItem('token'),"comment":comment,"artical_id":artical_id}
       console.log(data)
