@@ -1,5 +1,7 @@
-import React,{useState} from 'react'
-import { useNavigate,json } from 'react-router-dom';
+import React,{useState} from 'react';
+import { useNavigate} from 'react-router-dom';
+import axios from 'axios';
+
 
 
 
@@ -10,7 +12,29 @@ export default function Login() {
 
   const handlesubmition = async(e) => {
     e.preventDefault();
-    console.log(username,password)
+    //console.log(username,password,process.env.REACT_APP_SECRET_NAME)
+    try{
+       const data_set = {"user_name":username,"password":password}
+       await axios.post(`${process.env.REACT_APP_SECRET_NAME}/login`,data_set).then(
+        (res)=>{
+          if ((res.data["status"])==="ok"){
+            sessionStorage.setItem("token",res.data["token"])
+            navigate("/")
+          }else{
+            window.alert("invalied username or password")
+          }
+        }
+       ).catch(
+        (err)=>{
+          console.log(err)
+        }
+       )
+
+    }
+    catch(err){
+      console.log(err)
+    }
+
   }
 
     
